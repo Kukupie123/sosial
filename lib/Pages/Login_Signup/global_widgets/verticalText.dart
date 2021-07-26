@@ -8,7 +8,7 @@ class VerticalText extends StatelessWidget {
       child: RotatedBox(
           quarterTurns: -1,
           child: Text(
-            'KNOWN',
+            'SOSIAL',
             style: TextStyle(
                 color: Colors.black,
                 fontSize: 38,

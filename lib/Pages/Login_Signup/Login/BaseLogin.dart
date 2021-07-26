@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:sosial/Pages/Login_Signup/Signup/NewUserPage.dart';
 import 'package:sosial/Pages/Login_Signup/global_widgets/first.dart';
 import 'package:sosial/Pages/Login_Signup/global_widgets/loginButton.dart';
+import 'package:sosial/Pages/Login_Signup/global_widgets/newEmail.dart';
 import 'package:sosial/Pages/Login_Signup/global_widgets/newName.dart';
 import 'package:sosial/Pages/Login_Signup/global_widgets/password.dart';
 import 'package:sosial/Pages/Login_Signup/global_widgets/textLogin.dart';
@@ -103,7 +104,7 @@ class _LoginUIState extends State<LoginUI> {
             VerticalText(),
             TextLogin(),
           ]),
-          NewName(
+          NewEmail(
             controller: emailController,
           ),
           PasswordInput(controller: passwordController),

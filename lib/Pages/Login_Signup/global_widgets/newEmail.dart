@@ -13,14 +13,15 @@ class NewEmail extends StatelessWidget {
           autocorrect: true,
           controller: controller,
           style: TextStyle(
-            color: Colors.white,
+            color: Colors.black,
           ),
+          keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
             border: InputBorder.none,
-            fillColor: Colors.lightBlueAccent,
+            fillColor: Colors.black,
             labelText: 'Email',
             labelStyle: TextStyle(
-              color: Colors.white70,
+              color: Colors.black,
             ),
           ),
         ),

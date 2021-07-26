@@ -28,6 +28,8 @@ class MyApp extends StatelessWidget {
             create: (_) => ProviderTEMPEDIT())
       ],
       child: MaterialApp(
+        showPerformanceOverlay: false,
+        debugShowCheckedModeBanner: false,
         title: 'SOSIAL',
         theme: ThemeData(),
         home: FutureBuilder<FirebaseApp>(
