@@ -33,4 +33,8 @@ class Story {
   String getTitle() {
     return _title;
   }
+
+  String getStoryID() {
+    return _storyID;
+  }
 }

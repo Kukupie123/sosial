@@ -76,85 +76,82 @@ class _OthersBaseBioState extends State<OthersBaseBio> {
   @override
   Widget build(BuildContext context) {
     print("other bio page buit");
-    return ChangeNotifierProvider(
-      create: (context) => TempStoryListProvider(),
-      builder: (context, child) => Scaffold(
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Container(
-              color: Colors.white,
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  Stack(children: [
-                    OthersTopDeck(),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: IconButton(
-                          color: Colors.black,
-                          icon: Icon(LineAwesomeIcons.refresh),
-                          onPressed: () => onRefresh(context)),
-                    )
-                  ]),
+    return Scaffold(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Container(
+            color: Colors.white,
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                Stack(children: [
+                  OthersTopDeck(),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                          color: Colors.white,
-                          padding: EdgeInsets.fromLTRB(0, 0, 10, 20),
-                          child: Icon(
-                            LineAwesomeIcons.sort_desc,
-                            size: 40,
-                          ),
+                    padding: const EdgeInsets.only(top: 10),
+                    child: IconButton(
+                        color: Colors.black,
+                        icon: Icon(LineAwesomeIcons.refresh),
+                        onPressed: () => onRefresh(context)),
+                  )
+                ]),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        color: Colors.white,
+                        padding: EdgeInsets.fromLTRB(0, 0, 10, 20),
+                        child: Icon(
+                          LineAwesomeIcons.sort_desc,
+                          size: 40,
                         ),
-                        Consumer<ProviderUser>(
-                          builder: (context, value, child) => Text(
-                            value.bio == null || value.bio.trim().length <= 0
-                                ? "Loading"
-                                : value.bio,
-                          ),
+                      ),
+                      Consumer<ProviderUser>(
+                        builder: (context, value, child) => Text(
+                          value.bio == null || value.bio.trim().length <= 0
+                              ? "Loading"
+                              : value.bio,
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                          color: Colors.white,
-                          padding: EdgeInsets.fromLTRB(0, 0, 10, 20),
-                          child: Icon(
-                            LineAwesomeIcons.female,
-                            size: 40,
-                          ),
+                ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        color: Colors.white,
+                        padding: EdgeInsets.fromLTRB(0, 0, 10, 20),
+                        child: Icon(
+                          LineAwesomeIcons.female,
+                          size: 40,
                         ),
-                        Consumer<ProviderUser>(
-                          builder: (context, value, child) => Text(
-                            _genderDecider(),
-                          ),
+                      ),
+                      Consumer<ProviderUser>(
+                        builder: (context, value, child) => Text(
+                          _genderDecider(),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
-                    child: _postStoryButtonDecider(),
-                  ),
-                  ListStory(
-                    userID: widget.self
-                        ? Provider.of<ProviderFirebase>(context, listen: false)
-                            .userCredential
-                            .user
-                            .uid
-                        : widget.uidIfOther,
-                  ),
-                ],
-              ),
+                ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
+                  child: _postStoryButtonDecider(),
+                ),
+                ListStory(
+                  userID: widget.self
+                      ? Provider.of<ProviderFirebase>(context, listen: false)
+                          .userCredential
+                          .user
+                          .uid
+                      : widget.uidIfOther,
+                ),
+              ],
             ),
           ),
         ),

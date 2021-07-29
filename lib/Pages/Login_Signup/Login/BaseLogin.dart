@@ -6,7 +6,6 @@ import 'package:sosial/Pages/Login_Signup/Signup/NewUserPage.dart';
 import 'package:sosial/Pages/Login_Signup/global_widgets/first.dart';
 import 'package:sosial/Pages/Login_Signup/global_widgets/loginButton.dart';
 import 'package:sosial/Pages/Login_Signup/global_widgets/newEmail.dart';
-import 'package:sosial/Pages/Login_Signup/global_widgets/newName.dart';
 import 'package:sosial/Pages/Login_Signup/global_widgets/password.dart';
 import 'package:sosial/Pages/Login_Signup/global_widgets/textLogin.dart';
 import 'package:sosial/Pages/Login_Signup/global_widgets/verticalText.dart';

@@ -4,6 +4,7 @@ import 'package:sosial/Pages/Edit_ProfilePage/EditProfilePage.dart';
 // ignore: unused_import
 import 'package:sosial/Pages/Login_Signup/Login/BaseLogin.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:sosial/Pages/Other_BioPage/gloabal_widgets/ListStory.dart';
 import 'package:sosial/Providers/Provider_Firebase.dart';
 import 'package:sosial/Providers/Provider_User.dart';
 
@@ -25,13 +26,17 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider<ProviderUser>(create: (_) => ProviderUser()),
         ChangeNotifierProvider<ProviderTEMPEDIT>(
-            create: (_) => ProviderTEMPEDIT())
+            create: (_) => ProviderTEMPEDIT()),
+        ChangeNotifierProvider(
+          create: (context) => TempStoryListProvider(),
+        )
       ],
       child: MaterialApp(
         showPerformanceOverlay: false,
         debugShowCheckedModeBanner: false,
         title: 'SOSIAL',
         theme: ThemeData(),
+        // home: ViewStoryPage(),
         home: FutureBuilder<FirebaseApp>(
           future: _init,
           // ignore: missing_return

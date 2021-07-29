@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sosial/Model/Story.dart';
 import 'package:sosial/Pages/Mini%20widgets/BookLabel.dart';
+import 'package:sosial/Pages/Story_Page/View%20Story%20Page/ViewStory.dart';
 import 'package:sosial/Providers/Provider_Firebase.dart';
 
 class ListStory extends StatefulWidget {
@@ -40,17 +41,32 @@ class _ListStoryState extends State<ListStory> {
                 .length,
             (index) => Padding(
                   padding: const EdgeInsets.only(bottom: 10),
-                  child: BookLabel(
-                    hearts: 2,
-                    isHearted: true,
-                    summary: Provider.of<TempStoryListProvider>(context,
-                            listen: false)
-                        .stories[index]
-                        .getSummary(),
-                    title: Provider.of<TempStoryListProvider>(context,
-                            listen: false)
-                        .stories[index]
-                        .getTitle(),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ViewStoryPage(
+                              storyID: Provider.of<TempStoryListProvider>(
+                                      context,
+                                      listen: false)
+                                  .stories[index]
+                                  .getStoryID(),
+                            ),
+                          ));
+                    },
+                    child: BookLabel(
+                      hearts: 2,
+                      isHearted: true,
+                      summary: Provider.of<TempStoryListProvider>(context,
+                              listen: false)
+                          .stories[index]
+                          .getSummary(),
+                      title: Provider.of<TempStoryListProvider>(context,
+                              listen: false)
+                          .stories[index]
+                          .getTitle(),
+                    ),
                   ),
                 )),
       );
