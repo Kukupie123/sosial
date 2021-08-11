@@ -195,4 +195,17 @@ class _OthersBaseBioState extends State<OthersBaseBio> {
           });
     return Container();
   }
+
+  Widget _searchButtonDecider() {
+    if (widget.self) {
+      return IconButton(icon: Icon(LineAwesomeIcons.search), onPressed: () {});
+    } else {
+      return Row(
+        children: [
+          IconButton(icon: Icon(LineAwesomeIcons.search), onPressed: () {}),
+          IconButton(icon: Icon(LineAwesomeIcons.home), onPressed: () {})
+        ],
+      );
+    }
+  }
 }

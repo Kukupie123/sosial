@@ -241,9 +241,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
-              builder: (context) => OthersBaseBio(
-                self: true,
-              ),
+              builder: (context) => OthersBaseBio(),
             ),
             (route) => false);
         isUploading = false;
