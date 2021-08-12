@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:sosial/Pages/Login_Signup/Login/BaseLogin.dart';
 import 'package:sosial/Pages/Login_Signup/global_widgets/buttonNewUser.dart';
 import 'package:sosial/Pages/Login_Signup/global_widgets/newEmail.dart';
-import 'package:sosial/Pages/Login_Signup/global_widgets/newName.dart';
 import 'package:sosial/Pages/Login_Signup/global_widgets/password.dart';
 
 import 'package:sosial/Pages/Login_Signup/global_widgets/singup.dart';
@@ -108,7 +107,6 @@ class _NewUserBodyState extends State<NewUserBody> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        NewName(controller: nameController),
         NewEmail(controller: emailController),
         PasswordInput(controller: passwordController),
         StreamBuilder(

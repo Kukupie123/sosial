@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:sosial/Pages/Other_BioPage/gloabal_widgets/ListStory.dart';
+import 'package:sosial/Pages/Search%20user%20page/SearchUserPage.dart';
 import 'package:sosial/Pages/Story_Page/Add%20Story%20Page/AddStoryPage.dart';
 import 'package:sosial/Providers/Provider_Firebase.dart';
 import 'package:sosial/Providers/Provider_User.dart';
@@ -89,11 +90,16 @@ class _OthersBaseBioState extends State<OthersBaseBio> {
                   OthersTopDeck(),
                   Padding(
                     padding: const EdgeInsets.only(top: 10),
-                    child: IconButton(
-                        color: Colors.black,
-                        icon: Icon(LineAwesomeIcons.refresh),
-                        onPressed: () => onRefresh(context)),
-                  )
+                    child: Row(
+                      children: [
+                        IconButton(
+                            color: Colors.black,
+                            icon: Icon(LineAwesomeIcons.refresh),
+                            onPressed: () => onRefresh(context)),
+                        _searchButtonDecider()
+                      ],
+                    ),
+                  ),
                 ]),
                 Padding(
                   padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
@@ -198,7 +204,15 @@ class _OthersBaseBioState extends State<OthersBaseBio> {
 
   Widget _searchButtonDecider() {
     if (widget.self) {
-      return IconButton(icon: Icon(LineAwesomeIcons.search), onPressed: () {});
+      return IconButton(
+          icon: Icon(LineAwesomeIcons.search),
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SearchUserPage(),
+                ));
+          });
     } else {
       return Row(
         children: [

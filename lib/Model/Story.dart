@@ -16,14 +16,17 @@ class Story {
     this._storyID = storyID;
   }
 
+  // ignore: unused_field
   String _userID;
 
   String _storyID;
 
   String _title;
   String _summary;
+  // ignore: unused_field
   String _story;
 
+  // ignore: unused_field
   Uint8List _dp;
 
   String getSummary() {

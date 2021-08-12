@@ -5,4 +5,5 @@ class ProfileOther with ChangeNotifier {
   String gender;
   String bio;
   String dpURL;
+  String uid;
 }
