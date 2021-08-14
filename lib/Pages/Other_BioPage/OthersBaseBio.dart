@@ -9,6 +9,7 @@ import 'package:sosial/Pages/Other_BioPage/gloabal_widgets/ListStory.dart';
 import 'package:sosial/Pages/Search%20user%20page/SearchUserPage.dart';
 import 'package:sosial/Pages/Story_Page/Add%20Story%20Page/AddStoryPage.dart';
 import 'package:sosial/Providers/Provider_Firebase.dart';
+import 'package:sosial/Providers/Provider_Other.dart';
 import 'package:sosial/Providers/Provider_User.dart';
 
 import 'gloabal_widgets/othersTopDeck.dart';
@@ -33,6 +34,8 @@ class _OthersBaseBioState extends State<OthersBaseBio> {
   Future<void> loadData() async {
     ProviderUser providerUser =
         Provider.of<ProviderUser>(context, listen: false);
+    ProviderOther providerOther =
+        Provider.of<ProviderOther>(context, listen: false);
     await Future.delayed(Duration(seconds: 2));
 
     // if (fakeInfo) {
@@ -66,12 +69,36 @@ class _OthersBaseBioState extends State<OthersBaseBio> {
       //ENABLE CORS IN FBS
 
       providerUser.setDP(dpURL);
+    } else {
+      print("Loading profile of other " + widget.uidIfOther);
+      ProviderFirebase providerFirebase =
+          Provider.of<ProviderFirebase>(context, listen: false);
+      var fbfs =
+          FirebaseFirestore.instanceFor(app: providerFirebase.firebaseApp);
+      var doc = await fbfs.collection("Users").doc(widget.uidIfOther).get();
+
+      String bio = doc.get("Bio");
+      String gender = doc.get("Gender");
+      String name = doc.get("Name");
+      providerOther.setData(name, gender, bio);
+      String email = doc.get("email");
+      String dpURL =
+          await FirebaseStorage.instanceFor(app: providerFirebase.firebaseApp)
+              .ref("dp/" + email + ".jpeg")
+              .getDownloadURL();
+
+      //ENABLE CORS IN FBS
+
+      providerOther.setDP(dpURL);
     }
   }
 
   @override
   void dispose() {
     super.dispose();
+    if (widget.self == false) {
+      Provider.of<ProviderOther>(context, listen: false).deleteData();
+    }
   }
 
   @override
@@ -87,7 +114,7 @@ class _OthersBaseBioState extends State<OthersBaseBio> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 Stack(children: [
-                  OthersTopDeck(),
+                  OthersTopDeck(widget.self),
                   Padding(
                     padding: const EdgeInsets.only(top: 10),
                     child: Row(
@@ -114,13 +141,7 @@ class _OthersBaseBioState extends State<OthersBaseBio> {
                           size: 40,
                         ),
                       ),
-                      Consumer<ProviderUser>(
-                        builder: (context, value, child) => Text(
-                          value.bio == null || value.bio.trim().length <= 0
-                              ? "Loading"
-                              : value.bio,
-                        ),
-                      ),
+                      _bioDecider()
                     ],
                   ),
                 ),
@@ -137,9 +158,12 @@ class _OthersBaseBioState extends State<OthersBaseBio> {
                           size: 40,
                         ),
                       ),
-                      Consumer<ProviderUser>(
-                        builder: (context, value, child) => Text(
-                          _genderDecider(),
+                      Consumer<ProviderOther>(
+                        builder: (context, value, child) =>
+                            Consumer<ProviderUser>(
+                          builder: (context, value, child) => Text(
+                            _genderDecider(),
+                          ),
                         ),
                       ),
                     ],
@@ -165,15 +189,43 @@ class _OthersBaseBioState extends State<OthersBaseBio> {
     );
   }
 
+  Widget _bioDecider() {
+    if (widget.self) {
+      return Consumer<ProviderUser>(
+        builder: (context, value, child) => Text(
+          value.bio == null || value.bio.trim().length <= 0
+              ? "Loading"
+              : value.bio,
+        ),
+      );
+    } else
+      return Consumer<ProviderOther>(
+        builder: (context, value, child) => Text(
+          value.bio == null || value.bio.trim().length <= 0
+              ? "Loading"
+              : value.bio,
+        ),
+      );
+  }
+
   onRefresh(BuildContext context) {}
 
   String _genderDecider() {
-    ProviderUser providerUser =
-        Provider.of<ProviderUser>(context, listen: false);
-    if (providerUser.gender == null) {
-      return "Loading";
+    if (widget.self) {
+      ProviderUser providerUser =
+          Provider.of<ProviderUser>(context, listen: false);
+      if (providerUser.gender == null) {
+        return "Loading";
+      }
+      return providerUser.gender;
+    } else {
+      ProviderOther providerUser =
+          Provider.of<ProviderOther>(context, listen: false);
+      if (providerUser.gender == null) {
+        return "Loading";
+      }
+      return providerUser.gender;
     }
-    return providerUser.gender;
   }
 
   Widget _postStoryButtonDecider() {
@@ -217,7 +269,18 @@ class _OthersBaseBioState extends State<OthersBaseBio> {
       return Row(
         children: [
           IconButton(icon: Icon(LineAwesomeIcons.search), onPressed: () {}),
-          IconButton(icon: Icon(LineAwesomeIcons.home), onPressed: () {})
+          IconButton(
+              icon: Icon(LineAwesomeIcons.home),
+              onPressed: () {
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => OthersBaseBio(
+                        self: true,
+                      ),
+                    ),
+                    (route) => false);
+              })
         ],
       );
     }

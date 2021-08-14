@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:sosial/Model/ProfileOther.dart';
+import 'package:sosial/Pages/Other_BioPage/OthersBaseBio.dart';
 import 'package:sosial/Pages/Search%20user%20page/mini%20widgets/ProfileCard.dart';
 import 'package:sosial/Providers/Provider_Firebase.dart';
+import 'package:sosial/Providers/Provider_Other.dart';
 
 class SearchUserPage extends StatefulWidget {
   @override
@@ -94,7 +96,7 @@ class _SearchUserPageState extends State<SearchUserPage> {
           continue;
         }
         String name = doc.get("Name");
-        if (name.contains(searchController.text)) {
+        if (name.toLowerCase().contains(searchController.text.toLowerCase())) {
           //we will add this to list
           ProfileOther tempProfile = new ProfileOther();
           tempProfile.name = name;
@@ -118,11 +120,25 @@ class _SearchUserPageState extends State<SearchUserPage> {
         child: ListView(
           children: List.generate(
               profiles.length,
-              (i) => ProfileCard(
-                    bio: profiles[i].bio,
-                    gender: profiles[i].gender,
-                    name: profiles[i].name,
-                    uid: profiles[i].uid,
+              (i) => GestureDetector(
+                    onTap: () {
+                      Provider.of<ProviderOther>(context, listen: false)
+                          .deleteData();
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => OthersBaseBio(
+                              self: false,
+                              uidIfOther: profiles[i].uid,
+                            ),
+                          ));
+                    },
+                    child: ProfileCard(
+                      bio: profiles[i].bio,
+                      gender: profiles[i].gender,
+                      name: profiles[i].name,
+                      uid: profiles[i].uid,
+                    ),
                   )),
         ),
       );

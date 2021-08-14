@@ -6,6 +6,7 @@ import 'package:sosial/Pages/Login_Signup/Login/BaseLogin.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:sosial/Pages/Other_BioPage/gloabal_widgets/ListStory.dart';
 import 'package:sosial/Providers/Provider_Firebase.dart';
+import 'package:sosial/Providers/Provider_Other.dart';
 import 'package:sosial/Providers/Provider_User.dart';
 
 Future<void> main() async {
@@ -25,6 +26,9 @@ class MyApp extends StatelessWidget {
           create: (context) => ProviderFirebase(),
         ),
         ChangeNotifierProvider<ProviderUser>(create: (_) => ProviderUser()),
+        ChangeNotifierProvider<ProviderOther>(
+          create: (context) => ProviderOther(),
+        ),
         ChangeNotifierProvider<ProviderTEMPEDIT>(
             create: (_) => ProviderTEMPEDIT()),
         ChangeNotifierProvider(
