@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:image_picker_web/image_picker_web.dart';
 
 import 'package:provider/provider.dart';
 
@@ -40,7 +40,6 @@ class _TopDeckState extends State<EditTopDeck> {
 //method to load image and update `uploadedImage`
 
   //Image Picker
-  final picker = ImagePicker();
   Color followColor = Colors.white24;
   bool isFollowing = false;
   Color bioColor = Colors.white;
@@ -110,13 +109,13 @@ class _TopDeckState extends State<EditTopDeck> {
         Provider.of<ProviderTEMPEDIT>(context, listen: false);
 
     var pickedImage =
-        await picker.getImage(source: ImageSource.gallery, imageQuality: 30);
+        await ImagePickerWeb.getImage(outputType: ImageType.bytes);
 
     if (pickedImage != null) {
       try {
-        var byte = await pickedImage.readAsBytes();
+        //   var byte = await pickedImage.readAsBytes();
 
-        providerTempEdit.setImageSeleced(byte);
+        providerTempEdit.setImageSeleced(pickedImage);
       } catch (e) {
         providerTempEdit.setImageSeleced(null);
       }

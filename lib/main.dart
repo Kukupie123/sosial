@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         showPerformanceOverlay: false,
         debugShowCheckedModeBanner: false,
-        title: 'SOSIAL',
+        title: 'MINIMAL',
         theme: ThemeData(),
         // home: ViewStoryPage(),
         home: FutureBuilder<FirebaseApp>(

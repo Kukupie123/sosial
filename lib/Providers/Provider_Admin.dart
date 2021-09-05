@@ -10,6 +10,7 @@ class ProviderAdmin {
     var fbAuth = FirebaseAuth.instanceFor(app: fba);
 
     //Signing in as Administration (DO NOT DO IT IN FRONTEND IN ACTUAL PRODUCT)
+    // ignore: unused_local_variable
     var a = await fbAuth.signInWithEmailAndPassword(
         email: "administrator@gmail.com", password: "1234567890");
 

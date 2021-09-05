@@ -4,7 +4,7 @@ import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:image_picker_web/image_picker_web.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:sosial/Providers/Provider_Firebase.dart';
@@ -16,7 +16,6 @@ class AddStoryPage extends StatefulWidget {
 
 class _AddStoryPageState extends State<AddStoryPage> {
   Uint8List cover;
-  ImagePicker imagePicker;
 
   bool uploadPressed = false;
 
@@ -31,7 +30,6 @@ class _AddStoryPageState extends State<AddStoryPage> {
   @override
   void initState() {
     super.initState();
-    imagePicker = new ImagePicker();
     progressSC = new StreamController();
     progressS = progressSC.stream;
 
@@ -48,10 +46,9 @@ class _AddStoryPageState extends State<AddStoryPage> {
 
   Future<void> getImage() async {
     try {
-      var image = await imagePicker.getImage(
-          source: ImageSource.gallery, imageQuality: 30);
+      var image = await ImagePickerWeb.getImage(outputType: ImageType.bytes);
 
-      cover = await image.readAsBytes();
+      cover = image;
 
       setState(() {});
     } catch (e) {}
