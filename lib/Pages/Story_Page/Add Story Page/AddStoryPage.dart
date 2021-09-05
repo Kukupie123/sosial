@@ -120,7 +120,7 @@ class _AddStoryPageState extends State<AddStoryPage> {
                               controller: titleController,
                               decoration: InputDecoration(hintText: "Title"),
                               onChanged: (value) {
-                                if (value.length > 10) {
+                                if (value.length > 100) {
                                   titleController.text = value.substring(0, 10);
                                   titleController.selection =
                                       TextSelection.fromPosition(TextPosition(

@@ -5,23 +5,25 @@ import 'package:firebase_core/firebase_core.dart';
 class ProviderAdmin {
   Future<void> createUserData(
       String userID, String email, String password) async {
+    //Initialise the auth object from firebase SDK
     var fba = await Firebase.initializeApp();
     var fbAuth = FirebaseAuth.instanceFor(app: fba);
 
+    //Signing in as Administration (DO NOT DO IT IN FRONTEND IN ACTUAL PRODUCT)
     var a = await fbAuth.signInWithEmailAndPassword(
         email: "administrator@gmail.com", password: "1234567890");
 
     var fbFS = FirebaseFirestore.instanceFor(app: fba);
-    print(a.user.uid);
     DocumentSnapshot doc;
 
     try {
+      //Getting the record of the user based on 'UserID' parameter
       doc = await fbFS.collection("Users").doc(userID).get();
     } catch (e) {
-      print(e.toString());
       return;
     }
 
+    //If doc exists we are going to update the email and password as a safety check
     if (doc.exists) {
       try {
         doc.get("email");
@@ -39,6 +41,7 @@ class ProviderAdmin {
       }
 
       return;
+      //If doc doesn't exist we are going to create a new record in the database
     } else {
       await fbFS.collection("Users").doc(userID).set(
         {
@@ -54,28 +57,3 @@ class ProviderAdmin {
     }
   }
 }
-
-
-
-
-//Firestore rule
-
-// rules_version = '2';
-// service cloud.firestore {
-//   match /databases/{database}/documents {
-  
-//   //Only Allow if uid matches the docID
-//   match /Users/{userId} {
-//       allow read, write: if request.auth.uid == userId;
-
-//     }
-    
-//     //Allow any collection and any doc to be accessed if admin uid as created
-//     // in auth section
-//     match /{Collection}/{doc} {
-//       allow read, write: if request.auth.uid == "Njl8WCwoUdcWoQX1PlwE92f1wvB2";
-
-//     }
-
-//   }
-// }

@@ -5,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:provider/provider.dart';
+import 'package:sosial/Pages/Edit_ProfilePage/EditProfilePage.dart';
 import 'package:sosial/Pages/Other_BioPage/gloabal_widgets/ListStory.dart';
 import 'package:sosial/Pages/Search%20user%20page/SearchUserPage.dart';
 import 'package:sosial/Pages/Story_Page/Add%20Story%20Page/AddStoryPage.dart';
@@ -32,6 +33,7 @@ class _OthersBaseBioState extends State<OthersBaseBio> {
   }
 
   Future<void> loadData() async {
+    print("Loading data");
     ProviderUser providerUser =
         Provider.of<ProviderUser>(context, listen: false);
     ProviderOther providerOther =
@@ -105,88 +107,121 @@ class _OthersBaseBioState extends State<OthersBaseBio> {
   Widget build(BuildContext context) {
     print("other bio page buit");
     return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Container(
-            color: Colors.white,
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                Stack(children: [
-                  OthersTopDeck(widget.self),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              colors: [
+                Colors.lightBlueAccent,
+                Colors.lightBlue,
+                Colors.black87
+              ]),
+        ),
+        child: SafeArea(
+          child: SingleChildScrollView(
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topRight,
+                    end: Alignment.bottomLeft,
+                    colors: [
+                      Colors.lightBlue[200],
+                      Colors.pink[50],
+                      Colors.black12
+                    ]),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  Stack(children: [
+                    OthersTopDeck(widget.self),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: Row(
+                        children: [
+                          _iconButtonDecider(),
+                          _searchButtonDecider()
+                        ],
+                      ),
+                    ),
+                  ]),
                   Padding(
-                    padding: const EdgeInsets.only(top: 10),
+                    padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
                     child: Row(
-                      children: [
-                        IconButton(
-                            color: Colors.black,
-                            icon: Icon(LineAwesomeIcons.refresh),
-                            onPressed: () => onRefresh(context)),
-                        _searchButtonDecider()
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          padding: EdgeInsets.fromLTRB(0, 0, 10, 20),
+                          child: Icon(
+                            LineAwesomeIcons.sort_desc,
+                            size: 40,
+                          ),
+                        ),
+                        _bioDecider()
                       ],
                     ),
                   ),
-                ]),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
-                        color: Colors.white,
-                        padding: EdgeInsets.fromLTRB(0, 0, 10, 20),
-                        child: Icon(
-                          LineAwesomeIcons.sort_desc,
-                          size: 40,
-                        ),
-                      ),
-                      _bioDecider()
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
-                        color: Colors.white,
-                        padding: EdgeInsets.fromLTRB(0, 0, 10, 20),
-                        child: Icon(
-                          LineAwesomeIcons.female,
-                          size: 40,
-                        ),
-                      ),
-                      Consumer<ProviderOther>(
-                        builder: (context, value, child) =>
-                            Consumer<ProviderUser>(
-                          builder: (context, value, child) => Text(
-                            _genderDecider(),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          padding: EdgeInsets.fromLTRB(0, 0, 10, 20),
+                          child: Icon(
+                            LineAwesomeIcons.female,
+                            size: 40,
                           ),
                         ),
-                      ),
-                    ],
+                        Consumer<ProviderOther>(
+                          builder: (context, value, child) =>
+                              Consumer<ProviderUser>(
+                            builder: (context, value, child) => Text(
+                              _genderDecider(),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
-                  child: _postStoryButtonDecider(),
-                ),
-                ListStory(
-                  userID: widget.self
-                      ? Provider.of<ProviderFirebase>(context, listen: false)
-                          .userCredential
-                          .user
-                          .uid
-                      : widget.uidIfOther,
-                ),
-              ],
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
+                    child: _postStoryButtonDecider(),
+                  ),
+                  ListStory(
+                    userID: widget.self
+                        ? Provider.of<ProviderFirebase>(context, listen: false)
+                            .userCredential
+                            .user
+                            .uid
+                        : widget.uidIfOther,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
       ),
     );
+  }
+
+  Widget _iconButtonDecider() {
+    if (widget.self) {
+      return IconButton(
+        color: Colors.black,
+        icon: Icon(LineAwesomeIcons.edit),
+        onPressed: () => {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => EditProfilePage(),
+              ))
+        },
+      );
+    } else
+      return Container();
   }
 
   Widget _bioDecider() {
@@ -208,7 +243,9 @@ class _OthersBaseBioState extends State<OthersBaseBio> {
       );
   }
 
-  onRefresh(BuildContext context) {}
+  onRefresh(BuildContext context) {
+    loadData();
+  }
 
   String _genderDecider() {
     if (widget.self) {
@@ -256,15 +293,19 @@ class _OthersBaseBioState extends State<OthersBaseBio> {
 
   Widget _searchButtonDecider() {
     if (widget.self) {
-      return IconButton(
-          icon: Icon(LineAwesomeIcons.search),
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => SearchUserPage(),
-                ));
-          });
+      return Row(
+        children: [
+          IconButton(
+              icon: Icon(LineAwesomeIcons.search),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SearchUserPage(),
+                    ));
+              }),
+        ],
+      );
     } else {
       return Row(
         children: [

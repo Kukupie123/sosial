@@ -89,92 +89,100 @@ class _EditProfilePageState extends State<EditProfilePage> {
   Widget build(BuildContext context) {
     print("Edit page buit");
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    StreamBuilder(
-                      stream: stream,
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData == false) {
-                          return Container();
-                        } else if (snapshot.data == "loading") {
-                          return CircularProgressIndicator();
-                        } else if (snapshot.data == "success") {
-                          return Icon(LineAwesomeIcons.heart);
-                        } else {
-                          return Text(snapshot.data);
-                        }
-                      },
-                    ),
-                    EditTopDeck(
-                      nextFocusNode: focusDesc,
-                      nickName: nickName,
-                    ),
-                    Container(
-                      color: Colors.white,
-                      child: Column(
-                        children: <Widget>[
-                          Container(
-                            width: double.infinity,
-                            color: Colors.white,
-                            padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: TextField(
-                                focusNode: focusDesc,
-                                onSubmitted: (value) => FocusScope.of(context)
-                                    .requestFocus(focusGen),
-                                controller: description,
-                                decoration: InputDecoration(hintText: "Bio"),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              colors: [Colors.white24, Colors.pinkAccent, Colors.black87]),
+        ),
+        child: SafeArea(
+          child: Column(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      StreamBuilder(
+                        stream: stream,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData == false) {
+                            return Container();
+                          } else if (snapshot.data == "loading") {
+                            return CircularProgressIndicator();
+                          } else if (snapshot.data == "success") {
+                            return Icon(LineAwesomeIcons.heart);
+                          } else {
+                            return Text(snapshot.data);
+                          }
+                        },
+                      ),
+                      EditTopDeck(
+                        nextFocusNode: focusDesc,
+                        nickName: nickName,
+                      ),
+                      Container(
+                        color: Colors.white,
+                        child: Column(
+                          children: <Widget>[
+                            Container(
+                              width: double.infinity,
+                              color: Colors.white,
+                              padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: TextField(
+                                  focusNode: focusDesc,
+                                  onSubmitted: (value) => FocusScope.of(context)
+                                      .requestFocus(focusGen),
+                                  controller: description,
+                                  decoration: InputDecoration(hintText: "Bio"),
+                                ),
                               ),
                             ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Container(
-                                  color: Colors.white,
-                                  padding: EdgeInsets.fromLTRB(0, 0, 10, 20),
-                                  child: Icon(
-                                    LineAwesomeIcons.female,
-                                    size: 40,
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Container(
+                                    color: Colors.white,
+                                    padding: EdgeInsets.fromLTRB(0, 0, 10, 20),
+                                    child: Icon(
+                                      LineAwesomeIcons.female,
+                                      size: 40,
+                                    ),
                                   ),
-                                ),
-                                Expanded(
-                                    child: TextField(
-                                        focusNode: focusGen,
-                                        controller: gender,
-                                        onSubmitted: (value) =>
-                                            focusPro.requestFocus(),
-                                        decoration: InputDecoration(
-                                            hintText: "Gender"))),
-                              ],
+                                  Expanded(
+                                      child: TextField(
+                                          focusNode: focusGen,
+                                          controller: gender,
+                                          onSubmitted: (value) =>
+                                              focusPro.requestFocus(),
+                                          decoration: InputDecoration(
+                                              hintText: "Gender"))),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-            ButtonBar(
-              alignment: MainAxisAlignment.center,
-              children: [
-                IconButton(
-                    iconSize: 30,
-                    icon: Icon(LineAwesomeIcons.gamepad),
-                    onPressed: () => finalizeUpload(context)),
-              ],
-            )
-          ],
+              ButtonBar(
+                alignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
+                      iconSize: 30,
+                      icon: Icon(LineAwesomeIcons.gamepad),
+                      onPressed: () => finalizeUpload(context)),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );

@@ -16,21 +16,23 @@ class ProfilePageDecider extends StatefulWidget {
 class _ProfilePageDeciderState extends State<ProfilePageDecider> {
   ///returns true if user has profile setup and false if not, takes data from Provider User & Provider Firebase
   Future<bool> hasProfileSetup() async {
-    //Firebase provider
+//Using the persistent Firebase object
     ProviderFirebase providerFB =
         Provider.of<ProviderFirebase>(context, listen: false);
     FirebaseFirestore fbfs =
         FirebaseFirestore.instanceFor(app: providerFB.firebaseApp);
 
-    //User provider
+    //Using persistent User object where user's informations are stored
     ProviderUser providerUser =
         Provider.of<ProviderUser>(context, listen: false);
 
+    //Using the persistent firebase object and userID stored on persistent user object, we get the data of the user
     var doc = await fbfs
         .collection("Users")
         .doc(providerFB.userCredential.user.uid)
         .get();
-
+//If any of the field is "null" which will be true if we are loggin in for the first time we are going to be sent to edit profile page
+//or else we are going to go to homepage which is then going to load data again based on persistent user object's userID
     String name = doc.get("Name");
     if (name == "null")
       return false;

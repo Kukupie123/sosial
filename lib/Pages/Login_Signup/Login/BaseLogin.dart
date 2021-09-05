@@ -36,10 +36,9 @@ class _BaseLoginState extends State<BaseLogin> {
               begin: Alignment.topRight,
               end: Alignment.bottomLeft,
               colors: [
-                Colors.white,
-                Colors.white70,
-                Colors.white60,
-                Colors.black87,
+                Colors.lightBlueAccent,
+                Colors.pinkAccent,
+                Colors.black87
               ]),
         ),
         child: ListView(
@@ -200,26 +199,33 @@ class _LoginUIState extends State<LoginUI> {
   }
 
   loginPressed(String email, String password) async {
-    loginButtonSC.add("loading");
+    loginButtonSC.add("loading"); //shows loading text to the users
 
+    //Exception will be thrown if login credentials is wrong
     try {
+      //initializing the auth object from firebase SDK
       var fbAuth = FirebaseAuth.instanceFor(
           app: Provider.of<ProviderFirebase>(context, listen: false)
               .firebaseApp);
+
+      //Signin using the newly created auth object and storing the value in userCredential variable
       UserCredential userCredential = await fbAuth.signInWithEmailAndPassword(
           email: email, password: password);
+      //if no exceptions thrown, server has confirmed that the credentials are correct
 
-//Create User record if doesn't exist as Admin
+      //Create User record in the backend database as admin if record doesn't exist using ProviderAdmin object
       await ProviderAdmin()
           .createUserData(userCredential.user.uid, email, password);
 
-//Store the necessary variables in provider
+      //Store the necessary variables of newly loggin user in provider for persistence use
       Provider.of<ProviderFirebase>(context, listen: false).userCredential =
           userCredential;
       Provider.of<ProviderFirebase>(context, listen: false).firebaseAuth =
           fbAuth;
 
-      loginButtonSC.add("success");
+      loginButtonSC.add(
+          "success"); //Take the user to ProfilePageDecider who is going to decide which page to show
+
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
@@ -227,6 +233,7 @@ class _LoginUIState extends State<LoginUI> {
           ),
           (route) => false);
     } on FirebaseAuthException catch (e) {
+      //If we catch error we are going to show the error message to the user
       loginButtonSC.add(e.message);
     }
   }
