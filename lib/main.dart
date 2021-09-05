@@ -30,7 +30,8 @@ class MyApp extends StatelessWidget {
           create: (context) => ProviderOther(),
         ),
         ChangeNotifierProvider<ProviderTEMPEDIT>(
-            create: (_) => ProviderTEMPEDIT()),
+          create: (_) => ProviderTEMPEDIT(),
+        ),
         ChangeNotifierProvider(
           create: (context) => TempStoryListProvider(),
         )
@@ -40,7 +41,6 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'MINIMAL',
         theme: ThemeData(),
-        // home: ViewStoryPage(),
         home: FutureBuilder<FirebaseApp>(
           future: _init,
           // ignore: missing_return
