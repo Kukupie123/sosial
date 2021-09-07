@@ -40,11 +40,6 @@ class _OthersBaseBioState extends State<OthersBaseBio> {
         Provider.of<ProviderOther>(context, listen: false);
     await Future.delayed(Duration(seconds: 2));
 
-    // if (fakeInfo) {
-    //   //DEBUG PURPOSE
-    //   providerUser.setData("Fake name", "Fake Gender", "Fake Bio");
-    //   return;
-    // }
     if (widget.self) {
       ProviderFirebase providerFirebase =
           Provider.of<ProviderFirebase>(context, listen: false);
